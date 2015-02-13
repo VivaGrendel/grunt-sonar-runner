@@ -7,7 +7,7 @@ describe('Sonar Runner', function () {
     var sonarConfig;
 
     beforeEach(function () {
-        var config = grunt.file.read('sonar-runner-2.3/conf/sonar-runner.properties');
+        var config = grunt.file.read('sonar-runner-2.4/conf/sonar-runner.properties');
         var lines = config.split('\n');
         sonarConfig = Object.create(null);
         lines.forEach(function (line) {
@@ -20,9 +20,12 @@ describe('Sonar Runner', function () {
         sonarConfig['sonar.host.url'].should.equal('http://localhost:9000');
     });
 
-    it('default encoding is UTF-8 and language is js', function () {
-        sonarConfig['sonar.language'].should.be.equal('js');
+    it('default encoding is UTF-8', function () {
         sonarConfig['sonar.sourceEncoding'].should.be.equal('UTF-8');
+    });
+    
+    it('default language is multi language (not set)', function () {
+        should.not.exist(sonarConfig['sonar.language']);
     });
 
     it('database config is picked from jdbc node', function () {

@@ -39,7 +39,7 @@ module.exports = function (grunt) {
                             url: 'http://localhost:9000'
                         },
                         jdbc: {
-                            url: 'jdbc:mysql://localhost:3306/sonar',
+                            url: 'jdbc:h2:tcp://localhost:9092/sonar',
                             username: 'sonar',
                             password: 'sonar'
                         },
@@ -55,7 +55,7 @@ module.exports = function (grunt) {
             dryRun: {
                 options: {
                     dryRun: true,
-                    debug: false,
+                    debug: true,
                     separator: '\n',
                     sonar: {
                         host: {
@@ -69,7 +69,8 @@ module.exports = function (grunt) {
                         projectKey: 'sonar:grunt-sonar-runner:0.1.0',
                         projectName: 'Grunt Sonar Runner',
                         projectVersion: '0.10',
-                        sources: ['test'].join(',')
+                        sources: ['test'].join(','),
+                        exclusions: '**/R.js'
                     }
                 }
             }

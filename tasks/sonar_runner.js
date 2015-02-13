@@ -11,10 +11,10 @@
 var childProcess = require('child_process'), format = require('util').format, os = require('os');
 
 module.exports = function (grunt) {
-    var SONAR_RUNNER_HOME = __dirname+'/../sonar-runner-2.3';
+    var SONAR_RUNNER_HOME = __dirname+'/../sonar-runner-2.4';
     var SONAR_RUNNER_OPTS = process.env.SONAR_RUNNER_OPTS || "";
 
-    var JAR = '/lib/sonar-runner-dist-2.3.jar';
+    var JAR = '/lib/sonar-runner-dist-2.4.jar';
     var SONAR_RUNNER_COMMAND = 'java ' + SONAR_RUNNER_OPTS + ' ' + SONAR_RUNNER_HOME + JAR+' -X -Drunner.home=' + SONAR_RUNNER_HOME;
     var LIST_CMD = (/^win/).test(os.platform()) ? 'dir '+SONAR_RUNNER_HOME + JAR : 'ls '+SONAR_RUNNER_HOME + JAR;
 
@@ -45,9 +45,15 @@ module.exports = function (grunt) {
         var dryRun = options.dryRun;
         var done = this.async();
 
-        options.sonar.language = options.sonar.language || 'js';
+        // in case the language property isn't set sonar assumes this is a multi language project
+        if (options.sonar.language) {
+            options.sonar.language = options.sonar.language;
+        }
         options.sonar.sourceEncoding = options.sonar.sourceEncoding || 'UTF-8';
         options.sonar.host = options.sonar.host || {url: 'http://localhost:9000'};
+        if (Array.isArray(options.sonar.exclusions)) {
+            options.sonar.exclusions = options.sonar.exclusions.join(',');
+        }
 
         var effectiveOptions = Object.create(null);
         mergeOptions('sonar.', effectiveOptions, options.sonar);
@@ -73,7 +79,13 @@ module.exports = function (grunt) {
 
 
         var execCmd = dryRun ? LIST_CMD : SONAR_RUNNER_COMMAND;
-        var exec = childProcess.exec(execCmd, callback);
+
+        grunt.log.writeln("sonar-runner exec: " + SONAR_RUNNER_COMMAND);
+
+        var exec = childProcess.exec(execCmd,
+            options.maxBuffer ? { maxBuffer: options.maxBuffer } : {},
+            callback);
+
         exec.stdout.on('data', function (c) {
             grunt.log.write(c);
         });

@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/skhatri/grunt-sonar-runner.png)](https://travis-ci.org/skhatri/grunt-sonar-runner) [![NPM version](https://badge.fury.io/js/grunt-sonar-runner.png)](http://npmjs.org/package/grunt-sonar-runner)
 [![Dependency Status](https://david-dm.org/skhatri/grunt-sonar-runner.png)](https://david-dm.org/skhatri/grunt-sonar-runner)
 ## Getting Started
-This plugin requires Grunt `~0.4.2`
+This plugin requires Grunt `~0.4.5`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -75,6 +75,12 @@ Default value: 'false'
 
 A flag to run it in dry mode. The configuration is checked but not execute
 
+#### options.maxBuffer
+Type: `Number`
+Default value: `'null'`
+
+maxBuffer specifies the largest amount of data allowed on stdout or stderr - if this value is exceeded then the child process is killed and an error returned from sonar-runner.  See: [child_process.exec()](http://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback)
+
 
 #### options.sonar.host.url
 Type: `String`
@@ -119,7 +125,6 @@ project key usually of form group:artifactId:version
 
 
 
-
 #### options.sonar.projectName
 Type: `String`
 Default value: ''
@@ -136,6 +141,14 @@ Current project build version
 
 
 
+#### options.sonar.language
+Type: `String`
+Default value: null
+
+Sets the project language. A list of language plugins can be found [here](http://docs.sonarqube.org/display/SONAR/Plugin+Library). If this property is undefined, a multi language project will be assumed and the sources searched for valid/supported languages.
+
+
+
 #### options.sonar.javascript.lcov.reportPath
 Type: `String`
 Default value: -
@@ -143,6 +156,12 @@ Default value: -
 Path to the LCOV Code Coverage File to be used in Sonar
 
 
+
+#### options.sonar.exclusions
+Type: `String` or `[String]`  
+Default value: null
+
+A list of directories and files that should be excluded from Sonar analysis. A list of wildcards that can be use can be found [here](http://docs.codehaus.org/display/SONAR/Narrowing+the+Focus#NarrowingtheFocus-Patterns).
 
 
 
