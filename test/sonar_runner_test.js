@@ -2,12 +2,12 @@
 
 var grunt = require('grunt'), should=require('should');
 
-describe('Sonar Runner', function () {
+describe('Sonar Scanner', function () {
 
     var sonarConfig;
 
     beforeEach(function () {
-        var config = grunt.file.read('sonar-runner-3.0.3.778/conf/sonar-runner.properties');
+        var config = grunt.file.read('sonar-scanner-3.0.3.778/conf/sonar-scanner.properties');
         var lines = config.split('\n');
         sonarConfig = Object.create(null);
         lines.forEach(function (line) {

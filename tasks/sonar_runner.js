@@ -11,12 +11,12 @@
 var childProcess = require('child_process'), format = require('util').format, os = require('os');
 
 module.exports = function (grunt) {
-    var SONAR_RUNNER_HOME = __dirname+'/../sonar-runner-3.0.3.778';
-    var SONAR_RUNNER_OPTS = process.env.SONAR_RUNNER_OPTS || "";
+    var SONAR_SCANNER_HOME = __dirname+'/../sonar-scanner-3.0.3.778';
+    var SONAR_SCANNER_OPTS = process.env.SONAR_SCANNER_OPTS || "";
 
     var JAR = '/lib/sonar-scanner-cli-3.0.3.778.jar';
-    var SONAR_RUNNER_COMMAND = 'java ' + SONAR_RUNNER_OPTS + ' -jar ' + SONAR_RUNNER_HOME + JAR+' -X -Drunner.home=' + SONAR_RUNNER_HOME;
-    var LIST_CMD = (/^win/).test(os.platform()) ? 'dir '+SONAR_RUNNER_HOME + JAR : 'ls '+SONAR_RUNNER_HOME + JAR;
+    var SONAR_SCANNER_COMMAND = 'java ' + SONAR_SCANNER_OPTS + ' -jar ' + SONAR_SCANNER_HOME + JAR+' -X -scanner.home=' + SONAR_SCANNER_HOME;
+    var LIST_CMD = (/^win/).test(os.platform()) ? 'dir '+SONAR_SCANNER_HOME + JAR : 'ls '+SONAR_SCANNER_HOME + JAR;
 
     var mergeOptions = function (prefix, effectiveOptions, obj) {
         for (var j in obj) {
@@ -72,15 +72,15 @@ module.exports = function (grunt) {
         }
 
 
-        grunt.file.write(SONAR_RUNNER_HOME + '/conf/sonar-runner.properties', props.join(options.separator));
+        grunt.file.write(SONAR_SCANNER_HOME + '/conf/sonar-scanner.properties', props.join(options.separator));
         if (options.debug) {
             grunt.log.writeln('Sonar client configured ');
         }
 
 
-        var execCmd = dryRun ? LIST_CMD : SONAR_RUNNER_COMMAND;
+        var execCmd = dryRun ? LIST_CMD : SONAR_SCANNER_COMMAND;
 
-        grunt.log.writeln("sonar-runner exec: " + SONAR_RUNNER_COMMAND);
+        grunt.log.writeln("sonar-scanner exec: " + SONAR_SCANNER_COMMAND);
 
         var exec = childProcess.exec(execCmd,
             options.maxBuffer ? { maxBuffer: options.maxBuffer } : {},
