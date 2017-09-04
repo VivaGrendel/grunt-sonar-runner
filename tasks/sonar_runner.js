@@ -15,7 +15,7 @@ module.exports = function (grunt) {
     var SONAR_SCANNER_OPTS = process.env.SONAR_SCANNER_OPTS || "";
 
     var JAR = '/lib/sonar-scanner-cli-3.0.3.778.jar';
-    var SONAR_SCANNER_COMMAND = 'java ' + SONAR_SCANNER_OPTS + ' -jar ' + SONAR_SCANNER_HOME + JAR+' -X -scanner.home=' + SONAR_SCANNER_HOME;
+    var SONAR_SCANNER_COMMAND = 'java ' + SONAR_SCANNER_OPTS + ' -jar ' + SONAR_SCANNER_HOME + JAR+' -X -Dscanner.home=' + SONAR_SCANNER_HOME;
     var LIST_CMD = (/^win/).test(os.platform()) ? 'dir '+SONAR_SCANNER_HOME + JAR : 'ls '+SONAR_SCANNER_HOME + JAR;
 
     var mergeOptions = function (prefix, effectiveOptions, obj) {
